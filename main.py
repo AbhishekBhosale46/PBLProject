@@ -17,11 +17,6 @@ def load_lottieurl(url: str):
     return r.json()
 
 
-# ---SMA VALUES FUNCTION---
-def sma(dataf, period = 50, column='Close'):
-    return dataf[column].rolling(window=period).mean()
-
-
 # ---LOTTIE FILES OBJECTS---
 lottie_anim = load_lottieurl("https://assets9.lottiefiles.com/packages/lf20_kuhijlvx.json")
 lottie_anim1 = load_lottieurl("https://assets7.lottiefiles.com/packages/lf20_pmyyjcm7.json")
@@ -58,37 +53,21 @@ st.write("---")
 l, m, r = st.columns([1, 1, 1])
 with l:
     st_lottie(lottie_anim, key="anim", width=270, height=300)
+
 with m:
     st.write("##")
-    st.markdown("<h3 style='text-align: left; font-size:32px; color: #31333f;'>Enter a stock ticker : </h3>"
-                , unsafe_allow_html=True)
+    st.markdown('''<h3 style='text-align: left; font-size:32px; color: #31333f;'>
+                    Enter a stock ticker : 
+                    </h3>''', unsafe_allow_html=True)
     ticker = st.text_input("")
     st.write("##")
-
     if st.button(" 👉 GO !") or ticker:
+        pass
 
-        # ---DOWNLOADING STOCK DATA AND ASSIGNING OHLC VALUES TO GRAPH OBJ---
-        df = yf.download(ticker, start="2020-01-01", end='2022-05-18')
-
-        # ---ADDING SMA VALUES COLUMN---
-        df['30SMA'] = sma(df, 30)
-        df['10SMA'] = sma(df, 10)
-
-        ema_trace = go.Scatter(x=df.index, y=df['30SMA'], mode='lines', name='50SMA', line=dict(color='orange', width=1.5))
-        ema_trace1 = go.Scatter(x=df.index, y=df['10SMA'], mode='lines', name='20SMA', line=dict(color='red', width=1.5))
-
-        fig = go.Figure(data=[go.Candlestick(x=df.index,
-                                                 open = df['Open'],
-                                                 high = df['High'],
-                                                 low = df['Low'],
-                                                 close = df['Close'])])
-        fig.add_trace(ema_trace)
-        fig.add_trace(ema_trace1)
-
-        fig.update_layout(height=600, xaxis_rangeslider_visible=False, title=ticker+' STOCK',
-                          yaxis_title='PRICE', xaxis_title='DATE')
 with r:
     st_lottie(lottie_anim1, key="anim1", width=410, height=310)
+
+
 st.write("---")
 
 
