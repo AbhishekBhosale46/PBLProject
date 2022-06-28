@@ -9,19 +9,20 @@ from plotly.subplots import make_subplots
 from datetime import datetime
 import streamlit as st
 
-# --- DOWNLOAD THE DATA ---
-data = yf.download('MSFT', start='2018-01-01', end='2022-01-01')
-data = data[data.High != data.Low]
-data.reset_index(inplace=True)
 
-
-# --- CALCULATE TECHNICAL INDICATOR VALUES ---
-data['EMA'] = ta.sma(data.Close, length=200)
-data['RSI'] = ta.rsi(data.Close, length=2)
-bBands = ta.bbands(data.Close, length=20, std=2.5)
-data = data.join(bBands)
-data.dropna(inplace=True)
-data.reset_index(inplace=True)
+# --- FUNCTION TO DOWNLOAD THE DATA AND CLEAN IT ---
+def downloaddf(ticker, start, end):
+    df = yf.download(ticker, start=start, end=end)
+    df = df[df.High != df.Low]
+    df.reset_index(inplace=True)
+    df['EMA'] = ta.sma(df.Close, length=200)
+    df['RSI'] = ta.rsi(df.Close, length=2)
+    bBands = ta.bbands(df.Close, length=20, std=2.5)
+    df = df.join(bBands)
+    df.dropna(inplace=True)
+    df.reset_index(inplace=True)
+    return df
+data = downloaddf('MSFT', '2018-01-01', '2022-01-01')
 
 
 # --- CHECK IF UPTREND OR DOWNTREND ---
