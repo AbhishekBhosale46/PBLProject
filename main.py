@@ -7,78 +7,114 @@ import plotly.graph_objects as go
 import BBands as bb
 from backtesting import Strategy
 from backtesting import Backtest
+import numpy as np
+import ta
+import pandas_ta as pta
+from backtesting import Backtest, Strategy
+from backtesting.lib import crossover
+from datetime import datetime as dt
 
 
 fig = None
 
 
 # --- BOLLINGER BANDS STRATEGY ---
-def bollingerbands():
-    stockdata = bb.downloaddf(ticker, '2018-01-01', '2022-01-01')
-    bb.addemasignal(stockdata, 6)
-    bb.addorderlimit(stockdata, 0.00)
-    stockdata['PointPosBreak'] = stockdata.apply(lambda row: bb.pointposbreak(row), axis=1)
-    fig = go.Figure(data=[go.Candlestick(x = stockdata.index,
-                                         open = stockdata['Open'],
-                                         high = stockdata['High'],
-                                         low = stockdata['Low'],
-                                         close = stockdata['Close']),
-                          go.Scatter(x = stockdata.index, y = stockdata.EMA, line=dict(color='orange', width=2), name="EMA"),
-                          go.Scatter(x = stockdata.index, y = stockdata['BBL_20_2.5'], line=dict(color='blue', width=1), name="BBL_20_2.5"),
-                          go.Scatter(x = stockdata.index, y = stockdata['BBU_20_2.5'], line=dict(color='blue', width=1), name="BBU_20_2.5")])
-    fig.add_scatter(x = stockdata.index, y = stockdata['PointPosBreak'], mode="markers", marker=dict(size=5, color="MediumPurple"),
-                    name="Signal")
-    if fig is not None:
-        st.plotly_chart(fig, use_container_width=True)
+# def bollingerbands():
+#     stockdata = bb.downloaddf(ticker, '2018-01-01', '2022-01-01')
+#     bb.addemasignal(stockdata, 6)
+#     bb.addorderlimit(stockdata, 0.00)
+#     stockdata['PointPosBreak'] = stockdata.apply(lambda row: bb.pointposbreak(row), axis=1)
+#     fig = go.Figure(data=[go.Candlestick(x = stockdata.index,
+#                                          open = stockdata['Open'],
+#                                          high = stockdata['High'],
+#                                          low = stockdata['Low'],
+#                                          close = stockdata['Close']),
+#                           go.Scatter(x = stockdata.index, y = stockdata.EMA, line=dict(color='orange', width=2), name="EMA"),
+#                           go.Scatter(x = stockdata.index, y = stockdata['BBL_20_2.5'], line=dict(color='blue', width=1), name="BBL_20_2.5"),
+#                           go.Scatter(x = stockdata.index, y = stockdata['BBU_20_2.5'], line=dict(color='blue', width=1), name="BBU_20_2.5")])
+#     fig.add_scatter(x = stockdata.index, y = stockdata['PointPosBreak'], mode="markers", marker=dict(size=5, color="MediumPurple"),
+#                     name="Signal")
+#     if fig is not None:
+#         st.plotly_chart(fig, use_container_width=True)
+#
+#     def SIGNAL():
+#         return stockdata.OrderSignal
+#
+#     class MyStrat(Strategy):
+#
+#         initsize = 0.99
+#         ordertime = []
+#
+#         def init(self):
+#             super().init()
+#             self.signal = self.I(SIGNAL)
+#
+#         def next(self):
+#             super().next()
+#             for j in range(0, len(self.orders)):
+#                 if self.data.index[-1]-self.ordertime[0] > 5:
+#                     self.orders[0].cancel()
+#                     self.ordertime.pop(0)
+#             if len(self.trades) > 0:
+#                 if self.data.index[-1]-self.trades[-1].entry_time >= 10:
+#                     self.trades[-1].close()
+#                 if self.trades[-1].is_long and self.data.RSI[-1] >= 50:
+#                     self.trades[-1].close()
+#                 elif self.trades[-1].is_short and self.data.RSI[-1] <= 50:
+#                     self.trades[-1].close()
+#             if self.signal != 0 and len(self.trades) == 0 and self.data.EMASignal == 2:
+#                 #Cancel previous orders
+#                 for j in range(0, len(self.orders)):
+#                     self.orders[0].cancel()
+#                     self.ordertime.pop(0)
+#                 #Add new replacement order
+#                 self.buy(sl = self.signal/2, limit = self.signal, size = self.initsize)
+#                 self.ordertime.append(self.data.index[-1])
+#             elif self.signal != 0 and len(self.trades) == 0 and self.data.EMASignal == 1:
+#                 #Cancel previous orders
+#                 for j in range(0, len(self.orders)):
+#                     self.orders[0].cancel()
+#                     self.ordertime.pop(0)
+#                 #Add new replacement order
+#                 self.sell(sl = self.signal*2, limit = self.signal, size = self.initsize)
+#                 self.ordertime.append(self.data.index[-1])
+#
+#     bt = Backtest(stockdata, MyStrat,  cash = 10000, margin = 1/10, commission = .00)
+#     stat = bt.run()
+#     st.write('Strategy Returns [%] - ' + str(dict(stat)['Return [%]']))
+#     st.write('Win Rate [%] - ' + str(dict(stat)['Win Rate [%]']))
 
-    def SIGNAL():
-        return stockdata.OrderSignal
+# --- MA CROSSOVER STRATEGY ---
+def macross():
 
-    class MyStrat(Strategy):
-
-        initsize = 0.99
-        ordertime = []
+    class SMACross(Strategy):
+        n1 = 50
+        n2 = 200
 
         def init(self):
-            super().init()
-            self.signal = self.I(SIGNAL)
+            close = self.data.Close
+            self.sma1 = self.I(ta.trend.ema_indicator, pd.Series(close), self.n1)
+            self.sma2 = self.I(ta.trend.ema_indicator, pd.Series(close), self.n2)
 
         def next(self):
-            super().next()
-            for j in range(0, len(self.orders)):
-                if self.data.index[-1]-self.ordertime[0] > 5:
-                    self.orders[0].cancel()
-                    self.ordertime.pop(0)
-            if len(self.trades) > 0:
-                if self.data.index[-1]-self.trades[-1].entry_time >= 10:
-                    self.trades[-1].close()
-                if self.trades[-1].is_long and self.data.RSI[-1] >= 50:
-                    self.trades[-1].close()
-                elif self.trades[-1].is_short and self.data.RSI[-1] <= 50:
-                    self.trades[-1].close()
-            if self.signal != 0 and len(self.trades) == 0 and self.data.EMASignal == 2:
-                #Cancel previous orders
-                for j in range(0, len(self.orders)):
-                    self.orders[0].cancel()
-                    self.ordertime.pop(0)
-                #Add new replacement order
-                self.buy(sl = self.signal/2, limit = self.signal, size = self.initsize)
-                self.ordertime.append(self.data.index[-1])
-            elif self.signal != 0 and len(self.trades) == 0 and self.data.EMASignal == 1:
-                #Cancel previous orders
-                for j in range(0, len(self.orders)):
-                    self.orders[0].cancel()
-                    self.ordertime.pop(0)
-                #Add new replacement order
-                self.sell(sl = self.signal*2, limit = self.signal, size = self.initsize)
-                self.ordertime.append(self.data.index[-1])
+            if crossover(self.sma1, self.sma2):
+                self.buy()
+            elif crossover(self.sma2, self.sma1):
+                self.sell()
 
-    bt = Backtest(stockdata, MyStrat,  cash = 10000, margin = 1/10, commission = .00)
+    df = yf.download(ticker, start=dt.today() - pd.Timedelta(days=3000))
+    df.dropna(inplace=True)
+    bt = Backtest(df, SMACross, cash=10000, commission=0.00, exclusive_orders=True)
     stat = bt.run()
-    st.write('Strategy Returns [%] - ' + str(dict(stat)['Return [%]']))
-    st.write('Win Rate [%] - ' + str(dict(stat)['Win Rate [%]']))
-
-
+    st.write('Strategy Returns [%] : ' + str(dict(stat)['Return [%]']))
+    st.write('Win Rate [%] : ' + str(dict(stat)['Win Rate [%]']))
+    st.write('Buy & Hold Return [%] : ' + str(dict(stat)['Buy & Hold Return [%]']))
+    df['MA1'] = pta.ema(df.Close, length=50)
+    df['MA2'] = pta.ema(df.Close, length=200)
+    df.dropna(inplace=True)
+    df['Signal'] = 0.0
+    df['Signal'] = np.where(df['MA1'] > df['MA2'], 1.0, 0.0)
+    df['Position'] = df['Signal'].diff()
 
 # --- FUNCTION TO LOAD LOTTIE FILES ---
 def load_lottieurl(url: str):
@@ -136,8 +172,8 @@ with r:
     st_lottie(lottie_anim1, key="anim1", width=410, height=310)
 
 if gobtn or ticker:
-    st.header("Bollinger Bands Strategy")
-    bollingerbands()
+    st.header("MA Cross Strategy")
+    macross()
 
 
 st.write("---")
