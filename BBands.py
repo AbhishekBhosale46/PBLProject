@@ -49,12 +49,16 @@ def addemasignal(df, backCandles):
 # --- ADD ORDER DETAILS ---
 def addorderlimit(df, percent):
     orderSignal = [0]*len(df)
+    sig = [0]*len(df)
     for i in range(1, len(df)):
         if df.EMASignal[i] == 2 and df.Close[i] <= df['BBL_20_2.5'][i]:
             orderSignal[i] = df.Close[i]-df.Close[i]*percent
+            sig[i] = 1
         elif df.EMASignal[i] == 1 and df.Close[i] >= df['BBU_20_2.5'][i]:
             orderSignal[i] = df.Close[i]+df.Close[i]*percent
+            sig[i] = -1
     df['OrderSignal'] = orderSignal
+    df['Position'] = sig
 #addorderlimit(data, 0.00)
 
 
