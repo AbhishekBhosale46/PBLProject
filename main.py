@@ -51,13 +51,14 @@ def macross():
     df['Signal'] = np.where(df['MA1'] > df['MA2'], 1.0, 0.0)
     df['Position'] = df['Signal'].diff()
 
-    plot = go.Figure(data=[go.Candlestick(x = df.index,
-                                          open = df['Open'],
-                                          high = df['High'],
-                                          low = df['Low'],
-                                          close = df['Close']),
-                                          go.Scatter(x = df.index, y = df.MA1, line=dict(color='orange', width=1.5), name="EMA1"),
-                                          go.Scatter(x = df.index, y = df.MA2, line=dict(color='blue', width=1.5), name="EMA2")])
+    dfpl = df.tail(500)
+    plot = go.Figure(data=[go.Candlestick(x = dfpl.index,
+                                          open = dfpl['Open'],
+                                          high = dfpl['High'],
+                                          low = dfpl['Low'],
+                                          close = dfpl['Close']),
+                                          go.Scatter(x = dfpl.index, y = dfpl.MA1, line=dict(color='orange', width=1.5), name="EMA1"),
+                                          go.Scatter(x = dfpl.index, y = dfpl.MA2, line=dict(color='blue', width=1.5), name="EMA2")])
     plot.update_layout(height=600, xaxis_rangeslider_visible=False, title=ticker+' STOCK', yaxis_title='PRICE', xaxis_title='DATE')
 
     st.plotly_chart(plot, use_container_width=True)
@@ -127,6 +128,12 @@ st.write("---")
 if gobtn or ticker:
     st.subheader("Moving Average Crossover Strategy")
     macross()
+    st.info('The above strategy was tested on the previous 3000 days.')
+    st.warning('''
+                Disclaimer : Past results of any individual trading strategy on this website may not be the indicative
+                of future returns, and are not indicative of future returns realized by you. The same goes for backtested
+                results which are shown on this website.
+                ''')
 
 
 st.write("---")
