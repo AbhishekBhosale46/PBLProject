@@ -7,6 +7,7 @@ import plotly.graph_objects as go
 import BBands as bb
 from backtesting import Strategy
 from backtesting import Backtest
+from datetime import datetime as dt
 
 
 fig = None
@@ -14,7 +15,7 @@ fig = None
 
 # --- BOLLINGER BANDS STRATEGY ---
 def bollingerbands():
-    stockdata = bb.downloaddf(ticker, '2018-01-01', '2022-01-01')
+    stockdata = bb.downloaddf(ticker, start=dt.today() - pd.Timedelta(days=3000))
     bb.addemasignal(stockdata, 6)
     bb.addorderlimit(stockdata, 0.00)
     stockdata['PointPosBreak'] = stockdata.apply(lambda row: bb.pointposbreak(row), axis=1)
@@ -73,9 +74,10 @@ def bollingerbands():
                 self.sell(sl = self.signal*2, limit = self.signal, size = self.initsize)
                 self.ordertime.append(self.data.index[-1])
 
-    bt = Backtest(stockdata, MyStrat,  cash = 10000, margin = 1/10, commission = .00)
+    bt = Backtest(stockdata, MyStrat,  cash = 10000, margin=1/10, commission = 0.00)
     stat = bt.run()
     st.write('Strategy Returns [%] - ' + str(dict(stat)['Return [%]']))
+    st.write('Buy & Hold Returns [%] - ' + str(dict(stat)['Buy & Hold Return [%]']))
     st.write('Win Rate [%] - ' + str(dict(stat)['Win Rate [%]']))
 
 
@@ -95,28 +97,29 @@ lottie_anim1 = load_lottieurl("https://assets7.lottiefiles.com/packages/lf20_pmy
 
 # --- WEBPAGE DESIGN ---
 st.set_page_config(layout="wide")
-st.markdown("""
-        <style>
-               .css-18e3th9 {
-                    padding-top: 1rem;
-                    
-                    padding-right: 6rem;
-                    
-                }
-               .css-1d391kg {
-                    padding-top: 3.5rem;
-                    padding-left: 0rem;
-                    padding-right: 0rem;
-                }
-        </style>
-        """, unsafe_allow_html=True)    # Remove whitespace from the top of the page and sidebar
+st.markdown('''
+            <style>
+            .css-18e3th9 {
+            padding-top: 1rem;
+            padding-right: 6rem;
+            }
+            .css-1d391kg {
+            padding-top: 3.5rem;
+            padding-left: 0rem;
+            padding-right: 0rem;
+            }
+            </style>
+            ''', unsafe_allow_html=True)    # Remove whitespace from the top of the page and sidebar
 
 
 # --- HEADER SECTION ---
 c1, c2, c3 = st.columns(3)
 with c2:
-    st.markdown("<h2 style='text-align: center; font-size:48px; color: #31333f;'>	&#128184; ALGO ALERT !</h2>"
-               , unsafe_allow_html=True)
+    st.markdown('''
+                <h2 style='text-align: center; font-size:48px; color: #31333f;'>
+                &#128184; ALGO ALERT !
+                </h2>
+                ''', unsafe_allow_html=True)
 st.write("---")
 
 
@@ -126,9 +129,11 @@ with l:
     st_lottie(lottie_anim, key="anim", width=270, height=300)
 with m:
     st.write("##")
-    st.markdown('''<h3 style='text-align: left; font-size:32px; color: #31333f;'>
-                    Enter a stock ticker : 
-                    </h3>''', unsafe_allow_html=True)
+    st.markdown('''
+                <h3 style='text-align: left; font-size:32px; color: #31333f;'>
+                Enter a stock ticker : 
+                </h3>
+                ''', unsafe_allow_html=True)
     ticker = st.text_input("")
     st.write("##")
     gobtn = st.button(" 👉 GO !")
@@ -136,7 +141,7 @@ with r:
     st_lottie(lottie_anim1, key="anim1", width=410, height=310)
 
 if gobtn or ticker:
-    st.header("Bollinger Bands Strategy")
+    st.subheader("Bollinger Bands Strategy")
     bollingerbands()
 
 

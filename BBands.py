@@ -11,12 +11,12 @@ import streamlit as st
 
 
 # --- FUNCTION TO DOWNLOAD THE DATA AND CLEAN IT ---
-def downloaddf(ticker, start, end):
-    df = yf.download(ticker, start=start, end=end)
+def downloaddf(ticker, start):
+    df = yf.download(ticker, start=start)
     df = df[df.High != df.Low]
     df.reset_index(inplace=True)
     df['EMA'] = ta.sma(df.Close, length=200)
-    df['RSI'] = ta.rsi(df.Close, length=2)
+    df['RSI'] = ta.rsi(df.Close, length=3)
     bBands = ta.bbands(df.Close, length=20, std=2.5)
     df = df.join(bBands)
     df.dropna(inplace=True)
