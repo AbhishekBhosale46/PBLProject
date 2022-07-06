@@ -62,9 +62,10 @@ def macross():
     plot.update_layout(height=600, xaxis_rangeslider_visible=False, title=ticker+' STOCK', yaxis_title='PRICE', xaxis_title='DATE')
 
     st.plotly_chart(plot, use_container_width=True)
-    st.write('Strategy Returns [%] : ' + str(dict(stat)['Return [%]']))
-    st.write('Buy & Hold Return [%] : ' + str(dict(stat)['Buy & Hold Return [%]']))
-    st.write('Win Rate [%] : ' + str(dict(stat)['Win Rate [%]']))
+    with st.expander('Backtesting Results : '):
+        st.write('Strategy Returns [%] : ' + str(dict(stat)['Return [%]']))
+        st.write('Buy & Hold Return [%] : ' + str(dict(stat)['Buy & Hold Return [%]']))
+        st.write('Win Rate [%] : ' + str(dict(stat)['Win Rate [%]']))
 
 
 # --- FUNCTION TO LOAD LOTTIE FILES ---
