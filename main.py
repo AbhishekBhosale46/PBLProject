@@ -145,18 +145,17 @@ with r:
 if gobtn or ticker:
     st.subheader("Bollinger Bands Strategy")
     bollingerbands()
-    st.info('The above strategy was tested on the previous 3000 days.')
+    st.info('The above strategy was tested on the previous 3000 days and a leverage of 10x')
     st.warning('''
                 Disclaimer : Past results of any individual trading strategy on this website may not be the indicative
                 of future returns, and are not indicative of future returns realized by you. The same goes for backtested
                 results which are shown on this website.
                 ''')
 
-
-
 st.write("---")
 
-
+st.text_input('Enter your email to get upcoming signals for the asset : ')
+st.button('Get Updates ! ')
 
 
 
