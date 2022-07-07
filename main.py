@@ -19,16 +19,18 @@ def bollingerbands():
     bb.addemasignal(stockdata, 6)
     bb.addorderlimit(stockdata, 0.00)
     stockdata['PointPosBreak'] = stockdata.apply(lambda row: bb.pointposbreak(row), axis=1)
-    fig = go.Figure(data=[go.Candlestick(x = stockdata.index,
-                                         open = stockdata['Open'],
-                                         high = stockdata['High'],
-                                         low = stockdata['Low'],
-                                         close = stockdata['Close']),
-                          go.Scatter(x = stockdata.index, y = stockdata.EMA, line=dict(color='orange', width=2), name="EMA"),
-                          go.Scatter(x = stockdata.index, y = stockdata['BBL_20_2.5'], line=dict(color='blue', width=1), name="BBL_20_2.5"),
-                          go.Scatter(x = stockdata.index, y = stockdata['BBU_20_2.5'], line=dict(color='blue', width=1), name="BBU_20_2.5")])
-    fig.add_scatter(x = stockdata.index, y = stockdata['PointPosBreak'], mode="markers", marker=dict(size=5, color="MediumPurple"),
+    dfpl = stockdata.tail(500)
+    fig = go.Figure(data=[go.Candlestick(x = dfpl.Date,
+                                         open = dfpl['Open'],
+                                         high = dfpl['High'],
+                                         low = dfpl['Low'],
+                                         close = dfpl['Close']),
+                          go.Scatter(x = dfpl.Date, y = dfpl.EMA, line=dict(color='orange', width=2), name="EMA"),
+                          go.Scatter(x = dfpl.Date, y = dfpl['BBL_20_2.5'], line=dict(color='blue', width=1), name="BBL_20_2.5"),
+                          go.Scatter(x = dfpl.Date, y = dfpl['BBU_20_2.5'], line=dict(color='blue', width=1), name="BBU_20_2.5")])
+    fig.add_scatter(x = dfpl.Date, y = dfpl['PointPosBreak'], mode="markers", marker=dict(size=5, color="MediumPurple"),
                     name="Signal")
+    fig.update_layout(height=600, xaxis_rangeslider_visible=False, title=ticker+' STOCK', yaxis_title='PRICE', xaxis_title='DATE')
     if fig is not None:
         st.plotly_chart(fig, use_container_width=True)
 
@@ -76,10 +78,10 @@ def bollingerbands():
 
     bt = Backtest(stockdata, MyStrat,  cash = 10000, margin=1/10, commission = 0.00)
     stat = bt.run()
-    st.write('Strategy Returns [%] - ' + str(dict(stat)['Return [%]']))
-    st.write('Buy & Hold Returns [%] - ' + str(dict(stat)['Buy & Hold Return [%]']))
-    st.write('Win Rate [%] - ' + str(dict(stat)['Win Rate [%]']))
-
+    with st.expander('Backtesting Results : '):
+        st.write('Strategy Returns [%] : ' + str(dict(stat)['Return [%]']))
+        st.write('Buy & Hold Returns [%] : ' + str(dict(stat)['Buy & Hold Return [%]']))
+        st.write('Win Rate [%] : ' + str(dict(stat)['Win Rate [%]']))
 
 
 # --- FUNCTION TO LOAD LOTTIE FILES ---
@@ -143,6 +145,13 @@ with r:
 if gobtn or ticker:
     st.subheader("Bollinger Bands Strategy")
     bollingerbands()
+    st.info('The above strategy was tested on the previous 3000 days.')
+    st.warning('''
+                Disclaimer : Past results of any individual trading strategy on this website may not be the indicative
+                of future returns, and are not indicative of future returns realized by you. The same goes for backtested
+                results which are shown on this website.
+                ''')
+
 
 
 st.write("---")
