@@ -139,7 +139,8 @@ if gobtn or ticker:
 
 st.write("---")
 
-
+st.text_input('Enter your email to get upcoming signals for the asset : ')
+st.button('Get Updates ! ')
 
 
 
