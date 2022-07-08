@@ -31,8 +31,9 @@ def stock(sSymbol):
 # --- CHECK FOR CROSSOVER ---
 def check():
     for symbl in tickers:
-        if len(stock(symbl).Position) > 1:
-            if stock(symbl).Position[-1] and stock(symbl).Position.diff()[-1]:
+        data = stock(symbl).Position
+        if len(data) > 1:
+            if data[-1] and data.diff()[-1]:
                 st.write("Bullish cross over in " + symbl)
 
 if st.button('Show results : '):
