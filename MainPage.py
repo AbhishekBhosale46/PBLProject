@@ -1,5 +1,6 @@
 import streamlit as st
 from streamlit_lottie import st_lottie
+from bokeh.models.widgets import Div
 import requests
 
 
@@ -60,7 +61,12 @@ with c1:
             <img src="https://i.postimg.cc/Dw2GGjLS/i1.png" class="img-fluid hover-shadow" height="144px" width="256" alt="Cinque Terre">
             </p>
             ''', unsafe_allow_html=True)
-    st.button('Check Strategy', key='b1')
+    if st.button('Check Strategy', key='b1'):
+        js = "window.open('https://www.streamlit.io/')"  # New tab or window
+        #js = "window.location.href = 'https://www.streamlit.io/'"  # Current tab
+        html = '<img src onerror="{}">'.format(js)
+        div = Div(text=html)
+        st.bokeh_chart(div)
 with c2:
     st.subheader('Strategy 2 ')
     st.markdown('''
