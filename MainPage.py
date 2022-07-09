@@ -46,12 +46,12 @@ st.markdown('''
 
 st.title(' 📈 ALGO ALERT 📉 ')
 st.markdown('''
-            <p style="text-align:center; marginbottom:0px; margin-top:10px;"> 
+            <p style="text-align:center; marginbottom:10px; margin-top:10px;"> 
             <img src="https://i.postimg.cc/MKxNT9QQ/8432.jpg" class="img-fluid hover-shadow" height="270px" width="480px" alt="Cinque Terre">
             </p>
             ''', unsafe_allow_html=True)
-st.write('---')
 
+st.info('Strategies')
 c1, c2 = st.columns(2)
 with c1:
     st.subheader('Strategy 1 ')
@@ -69,8 +69,8 @@ with c2:
             </p>
             ''', unsafe_allow_html=True)
     st.button('Check Strategy', key='b2')
-st.write('---')
 
+st.info('Stock Recommendation Systems')
 c1, c2 = st.columns(2)
 with c1:
     st.subheader('SRS 1')
@@ -88,4 +88,12 @@ with c2:
             </p>
             ''', unsafe_allow_html=True)
     st.button('Check Stocks', key='b4')
-st.write('---')
+
+st.info('Interactive asset returns comparison dashboard')
+st.subheader('Dashboard')
+st.markdown('''
+            <p style="text-align:center; marginbottom:12px; margin-top:12px;"> 
+            <img src="https://i.postimg.cc/RZsj5YTf/i4.png" class="img-fluid hover-shadow" height="64px" width="64px" alt="Cinque Terre">
+            </p>
+            ''', unsafe_allow_html=True)
+st.button('Show Dashboard', key='b5')
