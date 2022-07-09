@@ -5,13 +5,28 @@ import yfinance as yf
 from stocksymbol import StockSymbol
 from datetime import datetime as dt
 
-st.title('Stock Recommender ')
+
+st.markdown('''
+            <style>
+            h1{
+            text-align: center;
+            }
+            .css-fg4pbf {
+            text-align: center;
+            }
+            </style>
+            ''', unsafe_allow_html=True)
+
+# --- STREAMLIT UI ---
+st.title('Stock Recommender System ')
+indexs = st.selectbox('Available indexes : ', ['SENSEX', 'NIFTY', 'BANKNIFTY'])
+st.info('Select any of the available indexes above !')
 
 # --- DOWNLOAD STOCK TICKERS ---
 stockApiKey = '9738ebfc-357d-4cc8-8f30-d719b2a36463'
 ss = StockSymbol(stockApiKey)
-indexs = 'SENSEX BANKNIFTY NIFTY'
-tickers = ss.get_symbol_list(index='SENSEX', symbols_only=True)
+#indexs = 'SENSEX BANKNIFTY NIFTY'
+tickers = ss.get_symbol_list(index=str(indexs), symbols_only=True)
 
 # --- CALCULATE THE SMA ---
 def applytechnicals(df):
@@ -36,5 +51,8 @@ def check():
             if data[-1] and data.diff()[-1]:
                 st.write("Bullish cross over in " + symbl)
 
-if st.button('Show results : '):
+placeholder = st.empty()
+if st.button('Show Stocks'):
+    placeholder.info('Please wait searching stocks ...')
     check()
+    placeholder.empty()
