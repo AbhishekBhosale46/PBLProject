@@ -5,3 +5,4 @@ yfinance==0.1.70
 plotly==5.8.0
 pandas==1.4.2
 Backtesting==0.3.3
+pandas-ta==0.3.14b0
