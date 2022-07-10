@@ -30,7 +30,7 @@ def bollingerbands():
                           go.Scatter(x = dfpl.Date, y = dfpl['BBU_20_2.5'], line=dict(color='blue', width=1), name="BBU_20_2.5")])
     fig.add_scatter(x = dfpl.Date, y = dfpl['PointPosBreak'], mode="markers", marker=dict(size=5, color="MediumPurple"),
                     name="Signal")
-    fig.update_layout(height=600, xaxis_rangeslider_visible=False, title=ticker+' STOCK', yaxis_title='PRICE', xaxis_title='DATE')
+    fig.update_layout(height=430, xaxis_rangeslider_visible=False, title=ticker+' STOCK', yaxis_title='PRICE', xaxis_title='DATE')
     if fig is not None:
         st.plotly_chart(fig, use_container_width=True)
 
@@ -112,15 +112,45 @@ st.markdown('''
             }
             </style>
             ''', unsafe_allow_html=True)    # Remove whitespace from the top of the page and sidebar
+st.markdown('''
+            <style>
+            h3{
+            text-align-last: center;
+            font-weight: 500;
+            }
+            .css-fg4pbf {
+            text-align: center;
+            }
+            .css-qrbaxs {
+            justify-content: center;
+            font-weight: 600
+            }
+            .st-ag {
+            font-weight: 600;
+            }
+            .css-1cpxqw2 {
+            border-radius: 0.65rem;
+            font-weight: 600;
+            font-size: 15px;
+            border: 1.5px solid rgba(49, 51, 63, 0.2);
+            }
+            </style>
+            ''', unsafe_allow_html=True)
 
 
 # --- HEADER SECTION ---
 c1, c2, c3 = st.columns(3)
 with c2:
+    st.title(' 📈 ALGO ALERT 📉 ')
     st.markdown('''
-                <h2 style='text-align: center; font-size:48px; color: #31333f;'>
-                &#128184; ALGO ALERT !
-                </h2>
+                <style>
+                h1{
+                text-align: center;
+                font-weight: 600;
+                font-size: 2.4rem;
+                margin-bottom: -40px;
+                }
+                </style>
                 ''', unsafe_allow_html=True)
 st.write("---")
 
@@ -138,9 +168,11 @@ with m:
                 ''', unsafe_allow_html=True)
     ticker = st.text_input("")
     st.write("##")
-    gobtn = st.button(" 👉 GO !")
+    gobtn = st.button(" 👉 Go !")
 with r:
     st_lottie(lottie_anim1, key="anim1", width=410, height=310)
+
+st.write("---")
 
 if gobtn or ticker:
     st.subheader("Bollinger Bands Strategy")
@@ -153,7 +185,6 @@ if gobtn or ticker:
                 ''')
 
 st.write("---")
-
 st.text_input('Enter your email to get upcoming signals for the asset : ')
 st.button('Get Updates ! ')
 
