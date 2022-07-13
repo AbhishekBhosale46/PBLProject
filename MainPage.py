@@ -97,7 +97,12 @@ with c1:
             <img src="https://i.postimg.cc/QtWXmf8b/i3.png" class="img-fluid hover-shadow" height="64px" width="64px" alt="Cinque Terre">
             </p>
             ''', unsafe_allow_html=True)
-    st.button('Check Stocks', key='b3')
+    if st.button('Check Stocks', key='b3'):
+        #js = "window.open('https://abhishekbhosale46-pblproject-main-strategy2-i6prxe.streamlitapp.com/')"  # New tab or window
+        js = "window.location.href = 'https://abhishekbhosale46-pblproject-macdrsi-smacrossindicator-rhjjp2.streamlitapp.com/'"  # Current tab
+        html = '<img src onerror="{}">'.format(js)
+        div = Div(text=html)
+        st.bokeh_chart(div)
 with c2:
     st.subheader('SRS 2 ')
     st.markdown('''
@@ -105,7 +110,12 @@ with c2:
             <img src="https://i.postimg.cc/QtWXmf8b/i3.png" class="img-fluid hover-shadow" height="64px" width="64px" alt="Cinque Terre">
             </p>
             ''', unsafe_allow_html=True)
-    st.button('Check Stocks', key='b4')
+    if st.button('Check Strategy', key='b4'):
+        #js = "window.open('https://abhishekbhosale46-pblproject-main-strategy2-i6prxe.streamlitapp.com/')"  # New tab or window
+        js = "window.location.href = 'https://abhishekbhosale46-pblproject-smacrossindi-smacrossindica-uuno4k.streamlitapp.com/'"  # Current tab
+        html = '<img src onerror="{}">'.format(js)
+        div = Div(text=html)
+        st.bokeh_chart(div)
 
 st.info('RETURNS COMPARISON DASHBOARD')
 st.subheader('Dashboard')
@@ -114,7 +124,12 @@ st.markdown('''
             <img src="https://i.postimg.cc/RZsj5YTf/i4.png" class="img-fluid hover-shadow" height="64px" width="64px" alt="Cinque Terre">
             </p>
             ''', unsafe_allow_html=True)
-st.button('Show Dashboard', key='b5')
+if st.button('Show Dashboard', key='b4'):
+    #js = "window.open('https://abhishekbhosale46-pblproject-main-strategy2-i6prxe.streamlitapp.com/')"  # New tab or window
+    js = "window.location.href = 'https://abhishekbhosale46-pblproject-dashboard-interactive-dashb-85rure.streamlitapp.com/'"  # Current tab
+    html = '<img src onerror="{}">'.format(js)
+    div = Div(text=html)
+    st.bokeh_chart(div)
 st.write('---')
 st.error('Disclaimer : Trading in Stock Market, Currency or Commodity markets is risky and there is every chance of losing money.'
            ' One should only trade with a small portion of his or her money which he can afford to lose.')
