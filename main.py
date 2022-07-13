@@ -82,12 +82,13 @@ lottie_anim1 = load_lottieurl("https://assets7.lottiefiles.com/packages/lf20_pmy
 
 
 # --- WEBPAGE DESIGN ---
+# --- WEBPAGE DESIGN ---
 st.set_page_config(layout="wide")
 st.markdown('''
             <style>
             .css-18e3th9 {
             padding-top: 1rem;
-            padding-right: 6rem;  
+            padding-right: 6rem;
             }
             .css-1d391kg {
             padding-top: 3.5rem;
@@ -96,17 +97,46 @@ st.markdown('''
             }
             </style>
             ''', unsafe_allow_html=True)    # Remove whitespace from the top of the page and sidebar
-
+st.markdown('''
+            <style>
+            h3{
+            text-align-last: center;
+            font-weight: 500;
+            }
+            .css-fg4pbf {
+            text-align: center;
+            }
+            .css-qrbaxs {
+            justify-content: center;
+            font-weight: 600
+            }
+            .st-ag {
+            font-weight: 600;
+            }
+            .css-1cpxqw2 {
+            border-radius: 0.65rem;
+            font-weight: 600;
+            font-size: 15px;
+            border: 1.5px solid rgba(49, 51, 63, 0.2);
+            }
+            </style>
+            ''', unsafe_allow_html=True)
 
 # --- HEADER SECTION ---
 c1, c2, c3 = st.columns(3)
 with c2:
+    st.title(' 📈 ALGO ALERT 📉 ')
     st.markdown('''
-                <h2 style='text-align: center; font-size:48px; color: #31333f;'>
-                &#128184; ALGO ALERT !
-                </h2>''', unsafe_allow_html=True)
+                <style>
+                h1{
+                text-align: center;
+                font-weight: 600;
+                font-size: 2.4rem;
+                margin-bottom: -40px;
+                }
+                </style>
+                ''', unsafe_allow_html=True)
 st.write("---")
-
 
 # --- TOP COLUMN ---
 l, m, r = st.columns([1, 1, 1])
