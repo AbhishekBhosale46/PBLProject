@@ -33,6 +33,7 @@ st.markdown('''
             text-align: center;
             font-weight: 600;
             font-size: 2.5rem;
+            margin-top: -15px
             }
             h3{
             text-align: center;
@@ -41,6 +42,12 @@ st.markdown('''
             .css-fg4pbf {
             text-align: center;
             }
+            .css-1cpxqw2 {
+            border-radius: 0.65rem;
+            font-weight: 600;
+            font-size: 15px;
+            border: 1.5px solid rgba(49, 51, 63, 0.2);
+            }
             </style>
             ''', unsafe_allow_html=True)
 
@@ -48,11 +55,11 @@ st.markdown('''
 st.title(' 📈 ALGO ALERT 📉 ')
 st.markdown('''
             <p style="text-align:center; marginbottom:10px; margin-top:10px;"> 
-            <img src="https://i.postimg.cc/MKxNT9QQ/8432.jpg" class="img-fluid hover-shadow" height="270px" width="480px" alt="Cinque Terre">
+            <img src="https://i.postimg.cc/MKxNT9QQ/8432.jpg" class="img-fluid hover-shadow" height="243px" width="432px" alt="Cinque Terre">
             </p>
             ''', unsafe_allow_html=True)
 
-st.info('Strategies')
+st.info('STRATEGIES')
 c1, c2 = st.columns(2)
 with c1:
     st.subheader('Strategy 1 ')
@@ -62,8 +69,8 @@ with c1:
             </p>
             ''', unsafe_allow_html=True)
     if st.button('Check Strategy', key='b1'):
-        js = "window.open('https://www.streamlit.io/')"  # New tab or window
-        #js = "window.location.href = 'https://www.streamlit.io/'"  # Current tab
+        #js = "window.open('https://www.streamlit.io/')"  # New tab or window
+        js = "window.location.href = 'https://abhishekbhosale46-pblproject-main-strategy1-cih40i.streamlitapp.com/'"  # Current tab
         html = '<img src onerror="{}">'.format(js)
         div = Div(text=html)
         st.bokeh_chart(div)
@@ -74,9 +81,14 @@ with c2:
             <img src="https://i.postimg.cc/1zFy3PXw/i2.png" class="img-fluid hover-shadow" height="144px" width="256" alt="Cinque Terre">
             </p>
             ''', unsafe_allow_html=True)
-    st.button('Check Strategy', key='b2')
+    if st.button('Check Strategy', key='b2'):
+        #js = "window.open('https://abhishekbhosale46-pblproject-main-strategy2-i6prxe.streamlitapp.com/')"  # New tab or window
+        js = "window.location.href = 'https://abhishekbhosale46-pblproject-main-strategy2-i6prxe.streamlitapp.com/'"  # Current tab
+        html = '<img src onerror="{}">'.format(js)
+        div = Div(text=html)
+        st.bokeh_chart(div)
 
-st.info('Stock Recommendation Systems')
+st.info('STOCK RECOMMENDATION SYSTEMS')
 c1, c2 = st.columns(2)
 with c1:
     st.subheader('SRS 1')
@@ -95,7 +107,7 @@ with c2:
             ''', unsafe_allow_html=True)
     st.button('Check Stocks', key='b4')
 
-st.info('Interactive asset returns comparison dashboard')
+st.info('RETURNS COMPARISON DASHBOARD')
 st.subheader('Dashboard')
 st.markdown('''
             <p style="text-align:center; marginbottom:12px; margin-top:12px;"> 
@@ -103,3 +115,6 @@ st.markdown('''
             </p>
             ''', unsafe_allow_html=True)
 st.button('Show Dashboard', key='b5')
+st.write('---')
+st.error('Disclaimer : Trading in Stock Market, Currency or Commodity markets is risky and there is every chance of losing money.'
+           ' One should only trade with a small portion of his or her money which he can afford to lose.')
