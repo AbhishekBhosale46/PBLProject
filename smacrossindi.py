@@ -14,13 +14,25 @@ st.markdown('''
             .css-fg4pbf {
             text-align: center;
             }
+            h1{
+            text-align: center;
+            font-weight: 600;
+            margin-top: -70px;
+            }
+            h3{
+            text-align: center;
+            margin-top: -25px;
+            margin-bottom: 15px;
+            }
             </style>
             ''', unsafe_allow_html=True)
 
 # --- STREAMLIT UI ---
-st.title('Stock Recommender System ')
-indexs = st.selectbox('Available indexes : ', ['SENSEX', 'NIFTY', 'BANKNIFTY'])
-st.info('Select any of the available indexes above !')
+st.title(' 📈 ALGO ALERT 📉 ')
+st.write('---')
+st.subheader('Stock Recommendation System 2')
+indexs = st.selectbox('Available indices : ', ['SENSEX', 'NIFTY', 'BANKNIFTY'])
+st.info('Select any of the available indices above !')
 
 # --- DOWNLOAD STOCK TICKERS ---
 stockApiKey = '9738ebfc-357d-4cc8-8f30-d719b2a36463'
