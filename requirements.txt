@@ -1,0 +1,6 @@
+pandas==1.4.2
+numpy==1.22.3
+streamlit==1.8.1
+ta==0.10.1
+yfinance==0.1.70
+stocksymbol==0.0.5
