@@ -8,12 +8,28 @@ from datetime import datetime as dt
 import ta
 
 
+st.markdown('''
+            <style>
+            h1{
+            text-align: center;
+            }
+            .css-fg4pbf {
+            text-align: center;
+            }
+            </style>
+            ''', unsafe_allow_html=True)
+
+# --- STREAMLIT UI ---
+st.title('Stock Recommender System ')
+indexs = st.selectbox('Available indexes : ', ['SENSEX', 'NIFTY', 'BANKNIFTY'])
+st.info('Select any of the available indexes above !')
+
 # --- DOWNLOAD STOCK TICKERS ---
 stockApiKey = '9738ebfc-357d-4cc8-8f30-d719b2a36463'
 ss = StockSymbol(stockApiKey)
 #indexs = 'SENSEX BANKNIFTY NIFTY S5CONS DJI DJUSCL S5UTIL S5HLTH S5INFT MID'
-print(ss.get_index_list())
-tickers = ss.get_symbol_list(index='S5UTIL', symbols_only=True)
+#print(ss.get_index_list())
+tickers = ss.get_symbol_list(index=str(indexs), symbols_only=True)
 
 # --- CALCULATE THE SMA ---
 def applytechnicals(df):
@@ -38,8 +54,12 @@ def check():
         data = stock(symbl)
         if not data.empty:
             if data['MACDSignal'].iloc[-1] == 'Buy':
-                print("MACD buying signal for " + symbl)
+                st.write("MACD buying signal for " + symbl)
             if data['RSISignal'].iloc[-1] == 'Buy':
-                print("RSI buying signal for " + symbl)
+                st.write("RSI and SMA buying signal for " + symbl)
 
-check()
+placeholder = st.empty()
+if st.button('Show Stocks'):
+    placeholder.info('Please wait searching stocks ...')
+    check()
+    placeholder.empty()
