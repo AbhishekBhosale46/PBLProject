@@ -1,0 +1,11 @@
+requests==2.27.1
+streamlit==1.8.1
+streamlit-lottie==0.0.3
+yfinance==0.1.70
+plotly==5.8.0
+pandas==1.4.2
+Backtesting==0.3.3
+pandas-ta==0.3.14b0
+numpy==1.22.3
+ta==0.10.1
+pandas-ta==0.3.14b0
