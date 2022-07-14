@@ -6,6 +6,7 @@ from stocksymbol import StockSymbol
 from datetime import datetime as dt
 
 
+# --- STREAMLIT UI ---
 st.markdown('''
             <style>
             h1{
@@ -26,12 +27,11 @@ st.markdown('''
             }
             </style>
             ''', unsafe_allow_html=True)
-
-# --- STREAMLIT UI ---
 st.title(' 📈 ALGO ALERT 📉 ')
 st.write('---')
 st.subheader('Stock Recommendation System 2')
-indexs = st.selectbox('Available indices : ', ['SENSEX', 'NIFTY', 'BANKNIFTY'])
+indexs = st.selectbox('Available indices : ', ['SENSEX', 'NIFTY', 'BANKNIFTY', 'DJI', 'SPX', 'IMOEX', 'COMP',
+                                               'STOXX 50', 'HANG SENG INDEX', 'UK 100 INDEX'])
 st.info('Select any of the available indices above !')
 
 # --- DOWNLOAD STOCK TICKERS ---
@@ -45,7 +45,7 @@ def applytechnicals(df):
     df['SMA50'] = df.Close.rolling(10).mean()
     df['SMA200'] = df.Close.rolling(20).mean()
     df.dropna(inplace=True)
-    df = df[['Close','SMA50','SMA200']]
+    df = df[['Close', 'SMA50', 'SMA200']]
     return df
 
 # --- DOWNLOAD DATA AND SET POSITION ---

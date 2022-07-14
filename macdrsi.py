@@ -30,7 +30,8 @@ st.markdown('''
 st.title(' 📈 ALGO ALERT 📉 ')
 st.write('---')
 st.subheader('Stock Recommendation System 1')
-indexs = st.selectbox('Available indices : ', ['SENSEX', 'NIFTY', 'BANKNIFTY'])
+indexs = st.selectbox('Available indices : ', ['SENSEX', 'NIFTY', 'BANKNIFTY', 'DJI', 'SPX', 'IMOEX', 'COMP',
+                                               'STOXX 50', 'HANG SENG INDEX', 'UK 100 INDEX'])
 st.info('Select any of the available indices above !')
 
 # --- DOWNLOAD STOCK TICKERS ---
